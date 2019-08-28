@@ -3,11 +3,10 @@
 require_relative 'lib/test_constants'
 require_relative '../bundle/bundler/setup'
 
-require 'repla/test'
 require Repla::Test::HELPER_FILE
 
 # Test plugin
-class TestPlugin < Test::Unit::TestCase
+class TestPlugin < Minitest::Test
   def setup
     Repla.load_plugin(TEST_PLUGIN_PATH)
   end
