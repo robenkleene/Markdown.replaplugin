@@ -11,7 +11,8 @@ namespace :markdown do
   task tests: [:clean_up]
 
   task :test_controller do
-    controller_tests_file = File.join(File.dirname(__FILE__), 'tc_controller.rb')
+    controller_tests_file = File.join(File.dirname(__FILE__),
+                                      'tc_controller.rb')
     ruby Shellwords.escape(controller_tests_file)
   end
 

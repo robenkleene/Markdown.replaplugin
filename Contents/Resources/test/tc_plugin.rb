@@ -9,6 +9,7 @@ require 'webconsole'
 require WebConsole.shared_test_resource('ruby/test_constants')
 require WebConsole::Tests::TEST_HELPER_FILE
 
+# Test plugin
 class TestPlugin < Test::Unit::TestCase
   def setup
     WebConsole.load_plugin(TEST_PLUGIN_PATH)
@@ -18,19 +19,22 @@ class TestPlugin < Test::Unit::TestCase
     # window.close
     WebConsole::Tests::Helper.quit
     WebConsole::Tests::Helper.confirm_dialog
-    assert(!WebConsole::Tests::Helper.is_running, 'The application should not be running.')
+    assert(!WebConsole::Tests::Helper.is_running)
   end
 
   def test_load_markdown_file
-    WebConsole.run_plugin(TEST_PLUGIN_NAME, TEST_PLUGIN_PATH, [TEST_MARKDOWN_FILE])
+    WebConsole.run_plugin(TEST_PLUGIN_NAME,
+                          TEST_PLUGIN_PATH,
+                          [TEST_MARKDOWN_FILE])
 
-    sleep WebConsole::Tests::TEST_PAUSE_TIME # Give the plugin time to finish running
+    # Give the plugin time to finish running
+    sleep WebConsole::Tests::TEST_PAUSE_TIME
 
     window_id = WebConsole.window_id_for_plugin(TEST_PLUGIN_NAME)
     window = WebConsole::Window.new(window_id)
 
     header = window.do_javascript(TEST_H1_JAVASCRIPT)
-    assert_equal(header, TEST_MARKDOWN_HEADER, 'The title should equal the test html title.')
+    assert_equal(header, TEST_MARKDOWN_HEADER)
   end
 
   # TODO: Pass to stdin of plugin and test its title

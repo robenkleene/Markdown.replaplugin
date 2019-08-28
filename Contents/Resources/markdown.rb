@@ -22,7 +22,8 @@ controller = WebConsole::Markdown::Controller.new(markdown, filename)
 
 path = File.expand_path(File.dirname(file))
 
-listener = Listen.to(path, only: /^#{Regexp.quote(filename)}$/) do |modified, _added, _removed|
+regex = Regexp.quote(filename)
+listener = Listen.to(path, only: /^#{regex}$/) do |modified, _added, _removed|
   file = File.open(modified[0])
   File.open(file) do |f|
     controller.markdown = f.read

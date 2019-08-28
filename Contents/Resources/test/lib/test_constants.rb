@@ -8,5 +8,6 @@ TEST_MARKDOWN_HEADER = 'Header 1'.freeze
 TEST_MARKDOWN_FILE_TWO = File.join(TEST_DATA_DIRECTORY, 'markdown2.md')
 TEST_MARKDOWN_HEADER_TWO = 'Header 2'.freeze
 
-TEST_PLUGIN_PATH = File.expand_path(File.join(File.dirname(__FILE__), '../../../..'))
+TEST_PLUGIN_PATH = File.expand_path(File.join(File.dirname(__FILE__),
+                                              '../../../..'))
 TEST_PLUGIN_NAME = 'Markdown'.freeze
