@@ -4,7 +4,7 @@ require_relative 'bundle/bundler/setup'
 require 'webconsole'
 require 'listen'
 
-require_relative "lib/controller"
+require_relative 'lib/controller'
 
 file = ARGF.file unless ARGV.empty?
 markdown = ARGF.read
@@ -22,17 +22,17 @@ controller = WebConsole::Markdown::Controller.new(markdown, filename)
 
 path = File.expand_path(File.dirname(file))
 
-listener = Listen.to(path, only: /^#{Regexp.quote(filename)}$/) { |modified, added, removed| 
+listener = Listen.to(path, only: /^#{Regexp.quote(filename)}$/) do |modified, _added, _removed|
   file = File.open(modified[0])
-  File.open(file) { |f| 
+  File.open(file) do |f|
     controller.markdown = f.read
-  }
-}
+  end
+end
 
 listener.start
 
-trap("SIGINT") {
+trap('SIGINT') do
   exit
-}
+end
 
 sleep

@@ -1,8 +1,7 @@
 module WebConsole::Markdown
   class View < WebConsole::View
-
-    BASE_DIRECTORY = File.join(File.dirname(__FILE__), "..")
-    VIEWS_DIRECTORY = File.join(BASE_DIRECTORY, "views")
+    BASE_DIRECTORY = File.join(File.dirname(__FILE__), '..')
+    VIEWS_DIRECTORY = File.join(BASE_DIRECTORY, 'views')
     VIEW_TEMPLATE = File.join(VIEWS_DIRECTORY, 'view.html.erb')
 
     def initialize(html = nil, filename = nil)
@@ -14,19 +13,18 @@ module WebConsole::Markdown
     end
 
     def body
-      return @html
-    end    
+      @html
+    end
 
     def title
       return @filename if @filename
+
       super
     end
 
-    REPLACE_CONTENT_JAVASCRIPT_FUNCTION = "replaceContent"
+    REPLACE_CONTENT_JAVASCRIPT_FUNCTION = 'replaceContent'.freeze
     def html=(html)
       do_javascript_function(REPLACE_CONTENT_JAVASCRIPT_FUNCTION, [html])
     end
-
   end
-
 end
