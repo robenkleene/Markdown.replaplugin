@@ -9,16 +9,8 @@ require_relative 'lib/controller'
 file = ARGF.file unless ARGV.empty?
 markdown = ARGF.read
 
-# This should allow the plugin to process Markdown from stdin, but
-# the Web Console Application doesn't yet support running a plugin
-# and reading from stdin simultaneously
-# if !file
-#   WebConsole::Markdown::Controller.new(markdown)
-#   exit
-# end
-
 filename = File.basename(file)
-controller = WebConsole::Markdown::Controller.new(markdown, filename)
+controller = Repla::Markdown::Controller.new(markdown, filename)
 
 path = File.expand_path(File.dirname(file))
 

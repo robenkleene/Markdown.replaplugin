@@ -1,8 +1,8 @@
 require_relative '../bundle/bundler/setup'
 require 'webconsole'
 
-require WebConsole.shared_test_resource('ruby/test_constants')
-require WebConsole::Tests::TEST_HELPER_FILE
+require 'repla/test'
+require Repla::Test::HELPER_FILE
 require 'shellwords'
 
 task default: ['markdown:tests']
@@ -21,7 +21,5 @@ namespace :markdown do
     ruby Shellwords.escape(plugin_tests_file)
   end
 
-  task clean_up: [:test_plugin] do
-    WebConsole::Tests::Helper.quit
-  end
+  task clean_up: [:test_plugin]
 end
