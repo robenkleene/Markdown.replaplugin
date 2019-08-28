@@ -1,7 +1,7 @@
 module Repla
   module Markdown
     # View
-    class View < WebConsole::View
+    class View < Repla::View
       BASE_DIRECTORY = File.join(File.dirname(__FILE__), '..')
       VIEWS_DIRECTORY = File.join(BASE_DIRECTORY, 'views')
       VIEW_TEMPLATE = File.join(VIEWS_DIRECTORY, 'view.html.erb')

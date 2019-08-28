@@ -1,7 +1,7 @@
 #!/System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby
 
 require_relative 'bundle/bundler/setup'
-require 'webconsole'
+require 'repla'
 require 'listen'
 
 require_relative 'lib/controller'

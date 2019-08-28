@@ -4,7 +4,7 @@ require 'test/unit'
 require 'Shellwords'
 
 require_relative '../bundle/bundler/setup'
-require 'webconsole'
+require 'repla'
 
 require_relative 'lib/test_constants'
 require_relative '../lib/controller'
@@ -15,7 +15,7 @@ class TestController < Test::Unit::TestCase
     markdown = File.read(TEST_MARKDOWN_FILE)
     filename = File.basename(TEST_MARKDOWN_FILE)
 
-    controller = WebConsole::Markdown::Controller.new(markdown, filename)
+    controller = Repla::Markdown::Controller.new(markdown, filename)
 
     header = controller.view.do_javascript(TEST_H1_JAVASCRIPT)
     assert_equal(header, TEST_MARKDOWN_HEADER)
