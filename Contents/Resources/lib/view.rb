@@ -24,10 +24,6 @@ module Repla
         super
       end
 
-      REPLACE_CONTENT_JAVASCRIPT_FUNCTION = 'replaceContent'.freeze
-      def html=(html)
-        do_javascript_function(REPLACE_CONTENT_JAVASCRIPT_FUNCTION, [html])
-      end
     end
   end
 end
