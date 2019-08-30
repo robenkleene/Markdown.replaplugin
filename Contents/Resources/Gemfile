@@ -4,6 +4,7 @@ ruby '2.3.7'
 gem 'listen'
 gem 'redcarpet'
 gem 'repla'
+gem 'raster'
 # "nio" is a dependency of listen, before adding it explicitely here, new
 # machines were getting a load error.
 gem 'nio'

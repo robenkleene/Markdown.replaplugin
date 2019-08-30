@@ -9,6 +9,7 @@ GEM
       ruby_dep (~> 1.2)
     nio (0.2.5)
       flt (>= 1.0.0)
+    raster (0.2.3)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -22,6 +23,7 @@ PLATFORMS
 DEPENDENCIES
   listen
   nio
+  raster
   redcarpet
   repla
 
