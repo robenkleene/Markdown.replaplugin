@@ -1,4 +1,4 @@
-#!/System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby
+#!/usr/bin/env ruby --disable-gems
 
 require_relative 'bundle/bundler/setup'
 require 'repla'
