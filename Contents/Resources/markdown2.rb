@@ -7,6 +7,7 @@ require 'redcarpet'
 module WEBrick
   # Servlet
   module HTTPServlet
+    # MarkdownHandler
     class MarkdownHandler < AbstractServlet
       Renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
       def initialize(server, local_path)
