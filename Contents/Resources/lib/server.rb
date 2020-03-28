@@ -12,21 +12,23 @@ module WEBrick
         @local_path = local_path
       end
 
+      # rubocop:disable Naming/MethodName
       def do_GET(_req, res)
-        res.body = <<~EOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-<html>
-<head>
-  <title>Markdown</title>
-</head>
-<body>
-#{Renderer.render IO.read(@local_path)}
-</body>
-</html>
-        EOF
+        # rubocop:enable Naming/MethodName
+        res.body = <<~BODY
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+          	<meta charset="utf-8" />
+          <html>
+          <head>
+            <title>Markdown</title>
+          </head>
+          <body>
+          #{Renderer.render IO.read(@local_path)}
+          </body>
+          </html>
+        BODY
         res['content-type'] = 'text/html'
       end
     end
