@@ -14,11 +14,18 @@ module WEBrick
 
       def do_GET(_req, res)
         res.body = <<~EOF
-          <html>
-          <body>
-          #{Renderer.render IO.read(@local_path)}
-          </body>
-          </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+<html>
+<head>
+  <title>Markdown</title>
+</head>
+<body>
+#{Renderer.render IO.read(@local_path)}
+</body>
+</html>
         EOF
         res['content-type'] = 'text/html'
       end

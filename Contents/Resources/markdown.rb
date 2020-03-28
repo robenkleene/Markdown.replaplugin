@@ -1,31 +1,23 @@
-#!/usr/bin/env ruby --disable-gems
+#!/usr/bin/env ruby
 
 require_relative 'bundle/bundler/setup'
 require 'repla'
 require 'listen'
 
-require_relative 'lib/controller'
+require_relative 'lib/server'
 
 file = ARGF.file unless ARGV.empty?
-markdown = ARGF.read
-
-filename = File.basename(file)
-controller = Repla::Markdown::Controller.new(markdown, filename)
-
 path = File.expand_path(File.dirname(file))
+filename = File.basename(file)
 
-regex = Regexp.quote(filename)
-listener = Listen.to(path, only: /^#{regex}$/) do |modified, _added, _removed|
-  file = File.open(modified[0])
-  File.open(file) do |f|
-    controller.markdown = f.read
-  end
+server = Repla::Markdown::Server.new(filename)
+
+listener = Listen.to(path) do |_modified, _added, _removed|
+  server.reload
 end
-
 listener.start
 
-trap('SIGINT') do
-  exit
+%w[INT TERM].each do |signal|
+  trap(signal) { server.shutdown }
 end
-
-sleep
+server.start
