@@ -1,38 +1,23 @@
 #!/usr/bin/env ruby
 
 require_relative 'bundle/bundler/setup'
-require 'webrick'
-require 'redcarpet'
+require 'repla'
+require 'listen'
 
-module WEBrick
-  # Servlet
-  module HTTPServlet
-    # MarkdownHandler
-    class MarkdownHandler < AbstractServlet
-      Renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
-      def initialize(server, local_path)
-        super(server, local_path)
-        @local_path = local_path
-      end
+require_relative 'lib/server'
 
-      def do_GET(_req, res)
-        res.body = <<~EOF
-          <html>
-          <body>
-          #{Renderer.render IO.read(@local_path)}
-          </body>
-          </html>
-        EOF
-        res['content-type'] = 'text/html'
-      end
-    end
-    FileHandler.add_handler('md', MarkdownHandler)
-  end
+file = ARGF.file unless ARGV.empty?
+path = File.expand_path(File.dirname(file))
+filename = File.basename(file)
+
+server = Repla::Markdown::Server.new(filename)
+
+listener = Listen.to(path) do |_modified, _added, _removed|
+  server.reload
 end
+listener.start
 
-server = WEBrick::HTTPServer.new Port: 1234, DocumentRoot: Dir.pwd
 %w[INT TERM].each do |signal|
   trap(signal) { server.shutdown }
 end
-
 server.start
