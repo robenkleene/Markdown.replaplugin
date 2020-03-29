@@ -40,8 +40,9 @@ module Repla
   module Markdown
     # Server
     class Server
-      def initialize(path, filename = nil)
-        @window = Repla::Window.new
+      def initialize(path, filename = nil, delegate = nil)
+        @delegate = delegate
+        @filename = filename
         @server = WEBrick::HTTPServer.new(
           Port: 0,
           DocumentRoot: path,
@@ -52,7 +53,6 @@ module Repla
                          end
         )
         @port = @server.port
-        @filename = filename
       end
 
       def start
@@ -68,16 +68,12 @@ module Repla
         rd.close
 
         url = "https://localhost:#{@port}/#{@filename}"
-        window.load_url(url)
+        @delegate.load_url(url) unless @delegate.nil?
         sleep
       end
 
       def shutdown
         server.shutdown
-      end
-
-      def reload
-        @window.reload
       end
     end
   end

@@ -10,10 +10,11 @@ file = ARGF.file unless ARGV.empty?
 path = File.expand_path(File.dirname(file))
 filename = File.basename(file)
 
-server = Repla::Markdown::Server.new(filename)
+window = Repla::Window.new
+server = Repla::Markdown::Server.new(path, filename, window)
 
 listener = Listen.to(path) do |_modified, _added, _removed|
-  server.reload
+  window.reload
 end
 listener.start
 
