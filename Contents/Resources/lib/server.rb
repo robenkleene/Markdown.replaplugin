@@ -19,7 +19,7 @@ module WEBrick
           <!DOCTYPE html>
           <html lang="en">
           <head>
-          	<meta charset="utf-8" />
+            <meta charset="utf-8" />
           <html>
           <head>
             <title>Markdown</title>
@@ -40,15 +40,36 @@ module Repla
   module Markdown
     # Server
     class Server
-      def initialize(filename = nil)
+      def initialize(path, filename = nil)
         @window = Repla::Window.new
-        @server = WEBrick::HTTPServer.new Port: 1234, DocumentRoot: Dir.pwd
+        @server = WEBrick::HTTPServer.new(
+          Port: 0,
+          DocumentRoot: path,
+          StartCallback: proc do
+                           # Write `1` to signal server start
+                           wt.write(1)
+                           wt.close
+                         end
+        )
+        @port = @server.port
         @filename = filename
       end
 
       def start
-        # TODO: Open `@filename`
-        server.start
+        rd, wt = IO.pipe
+        pid fork do
+          rd.close
+          server.start
+        end
+
+        wt.close
+        # Read `1` to know to continue when server is started
+        rd.read(1)
+        rd.close
+
+        url = "https://localhost:#{@port}/#{@filename}"
+        window.load_url(url)
+        sleep
       end
 
       def shutdown
