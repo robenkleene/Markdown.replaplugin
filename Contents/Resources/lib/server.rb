@@ -41,6 +41,7 @@ module Repla
     # Server
     class Server
       def initialize(path, filename = nil, delegate = nil)
+        @path = path
         @delegate = delegate
         @filename = filename
       end
@@ -49,7 +50,7 @@ module Repla
         rd, wt = IO.pipe
         @server = WEBrick::HTTPServer.new(
           Port: 0,
-          DocumentRoot: path,
+          DocumentRoot: @path,
           StartCallback: proc do
                            # Write `1` to signal server start
                            wt.write(1)
