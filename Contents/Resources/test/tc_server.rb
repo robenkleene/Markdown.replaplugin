@@ -4,6 +4,7 @@ require 'minitest/autorun'
 
 require_relative 'lib/test_constants'
 require_relative '../bundle/bundler/setup'
+
 require 'repla/test'
 require Repla::Test::REPLA_FILE
 require Repla::Test::HELPER_FILE
@@ -13,7 +14,7 @@ require_relative '../lib/server'
 class TestServer < Minitest::Test
   def setup
     path = File.expand_path(File.dirname(TEST_MARKDOWN_FILE))
-    filename = File.basename(file)
+    filename = File.basename(TEST_MARKDOWN_FILE)
     @window = Repla::Window.new
     @server = Repla::Markdown::Server.new(path, filename, window)
   end
