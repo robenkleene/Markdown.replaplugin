@@ -17,6 +17,7 @@ class TestServer < Minitest::Test
     filename = File.basename(TEST_MARKDOWN_FILE)
     @window = Repla::Window.new
     @server = Repla::Markdown::Server.new(path, filename, @window)
+    @server.start
   end
 
   def teardown

@@ -43,6 +43,10 @@ module Repla
       def initialize(path, filename = nil, delegate = nil)
         @delegate = delegate
         @filename = filename
+      end
+
+      def start
+        rd, wt = IO.pipe
         @server = WEBrick::HTTPServer.new(
           Port: 0,
           DocumentRoot: path,
@@ -52,14 +56,10 @@ module Repla
                            wt.close
                          end
         )
-        @port = @server.port
-      end
-
-      def start
-        rd, wt = IO.pipe
-        pid fork do
+        port = @server.config[:port]
+        fork do
           rd.close
-          server.start
+          @server.start
         end
 
         wt.close
@@ -67,13 +67,12 @@ module Repla
         rd.read(1)
         rd.close
 
-        url = "https://localhost:#{@port}/#{@filename}"
+        url = "https://localhost:#{port}/#{@filename}"
         @delegate.load_url(url) unless @delegate.nil?
-        sleep
       end
 
       def shutdown
-        server.shutdown
+        @server.shutdown
       end
     end
   end

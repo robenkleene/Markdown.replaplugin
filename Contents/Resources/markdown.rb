@@ -21,4 +21,6 @@ listener.start
 %w[INT TERM].each do |signal|
   trap(signal) { server.shutdown }
 end
+
 server.start
+sleep
