@@ -32,8 +32,21 @@ class TestServer < Minitest::Test
       result == TEST_MARKDOWN_HEADER
     end
     assert_equal(TEST_MARKDOWN_HEADER, result)
-    title = window.do_javascript(TEST_TITLE_JAVASCRIPT)
+    title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
     assert_equal(TEST_MARKDOWN_FILENAME, title)
+
+    # Load the second URL
+    url = @server.url_for_subpath(TEST_MARKDOWN_SUBPATH)
+    @window.load_url(url)
+
+    result = nil
+    Repla::Test.block_until do
+      result = @window.do_javascript(TEST_H1_JAVASCRIPT)
+      result == TEST_MARKDOWN_HEADER_TWO
+    end
+    assert_equal(TEST_MARKDOWN_HEADER_TWO, result)
+    title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
+    assert_equal(TEST_MARKDOWN_FILENAME_TWO, title)
   end
 
   # def test_bad_file
@@ -64,18 +77,5 @@ class TestServerTwo < Minitest::Test
     assert_equal(TEST_MARKDOWN_HEADER_TWO, result)
     title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
     assert_equal(TEST_MARKDOWN_FILENAME_TWO, title)
-
-    # Load the second URL
-    url = @server.url_for_subpath(TEST_MARKDOWN_FILENAME)
-    @window.load_url(url)
-
-    result = nil
-    Repla::Test.block_until do
-      result = @window.do_javascript(TEST_H1_JAVASCRIPT)
-      result == TEST_MARKDOWN_HEADER
-    end
-    assert_equal(TEST_MARKDOWN_HEADER, result)
-    title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
-    assert_equal(TEST_MARKDOWN_FILENAME, title)
   end
 end
