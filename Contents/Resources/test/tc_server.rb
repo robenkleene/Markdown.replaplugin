@@ -21,8 +21,8 @@ class TestServer < Minitest::Test
   end
 
   def teardown
-    @window.close
     @server.shutdown
+    @window.close
   end
 
   def test_server

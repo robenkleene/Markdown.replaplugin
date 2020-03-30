@@ -61,8 +61,10 @@ module Repla
         @pid = fork do
           rd.close
           @server.start
+          %w[INT TERM].each do |signal|
+            trap(signal) { @server.shutdown }
+          end
         end
-
         wt.close
         # Read `1` to know to continue when server is started
         rd.read(1)
@@ -73,7 +75,6 @@ module Repla
       end
 
       def shutdown
-        @server.shutdown
         Process.kill('INT', @pid)
       end
     end
