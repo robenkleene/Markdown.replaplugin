@@ -10,7 +10,7 @@ require Repla::Test::REPLA_FILE
 require Repla::Test::HELPER_FILE
 require_relative '../lib/server'
 
-# Test controller
+# TestServer
 class TestServer < Minitest::Test
   def setup
     path = File.expand_path(File.dirname(TEST_MARKDOWN_FILE))
@@ -40,7 +40,7 @@ class TestServer < Minitest::Test
   # end
 end
 
-
+# TestServerTwo
 class TestServerTwo < Minitest::Test
   def setup
     path = File.expand_path(File.dirname(TEST_MARKDOWN_FILE_TWO))
@@ -61,19 +61,21 @@ class TestServerTwo < Minitest::Test
       result = @window.do_javascript(TEST_H1_JAVASCRIPT)
       result == TEST_MARKDOWN_HEADER_TWO
     end
-    assert_equal(TEST_MARKDOWN_HEADER, result)
-    header = controller.view.do_javascript(TEST_H1_JAVASCRIPT)
-    assert_equal(header, TEST_MARKDOWN_HEADER)
+    assert_equal(TEST_MARKDOWN_HEADER_TWO, result)
+    title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
+    assert_equal(TEST_MARKDOWN_FILENAME_TWO, title)
+
     # Load the second URL
+    url = @server.url_for_subpath(TEST_MARKDOWN_FILENAME)
+    @window.load_url(url)
 
-
-    path = File.expand_path(File.dirname(TEST_MARKDOWN_FILENAME_TWO))
-    filename = File.basename(file)
-    server = Repla::Markdown::Server.new(markdown, filename, window)
-
-    header_two = controller.view.do_javascript(TEST_H1_JAVASCRIPT)
-    header_two.chomp!
-    assert_equal(header_two, TEST_MARKDOWN_HEADER_TWO)
-    # TODO: Manually call shutdown
+    result = nil
+    Repla::Test.block_until do
+      result = @window.do_javascript(TEST_H1_JAVASCRIPT)
+      result == TEST_MARKDOWN_HEADER
+    end
+    assert_equal(TEST_MARKDOWN_HEADER, result)
+    title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
+    assert_equal(TEST_MARKDOWN_FILENAME, title)
   end
 end

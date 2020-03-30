@@ -63,7 +63,7 @@ module Repla
                            wt.close
                          end
         )
-        port = @server.config[:Port]
+        @port = @server.config[:Port]
         @server.mount_proc "/#{STYLSHEET_TOKEN}" do |_req, res|
           stylesheet_path = File.join(File.dirname(__FILE__),
                                       '..',
