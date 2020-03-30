@@ -58,7 +58,7 @@ module Repla
                          end
         )
         port = @server.config[:Port]
-        fork do
+        @pid = fork do
           rd.close
           @server.start
         end
@@ -74,6 +74,7 @@ module Repla
 
       def shutdown
         @server.shutdown
+        Process.kill('INT', @pid)
       end
     end
   end
