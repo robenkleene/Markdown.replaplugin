@@ -3,6 +3,7 @@ require 'redcarpet'
 
 require 'securerandom'
 STYLSHEET_TOKEN = SecureRandom.uuid
+RASTER_TOKEN = SecureRandom.uuid
 
 module WEBrick
   # Servlet
@@ -25,6 +26,7 @@ module WEBrick
           <head>
             <title>#{title}</title>
             <meta charset="utf-8" />
+            <link rel="stylesheet" href="#{RASTER_TOKEN}">
             <link rel="stylesheet" href="#{STYLSHEET_TOKEN}">
           <html>
           <body>
@@ -65,6 +67,14 @@ module Repla
           stylesheet_path = File.join(File.dirname(__FILE__),
                                       '..',
                                       'css/style.css')
+          res.body = IO.read(stylesheet_path)
+        end
+        @server.mount_proc "/#{RASTER_TOKEN}" do |_req, res|
+          stylesheet_path = File.join(
+            File.dirname(__FILE__),
+            '..',
+            'bundle/ruby/2.4.0/gems/raster-0.2.3/dist/css/raster.css'
+          )
           res.body = IO.read(stylesheet_path)
         end
         @pid = fork do
