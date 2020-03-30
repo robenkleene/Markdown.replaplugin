@@ -38,6 +38,7 @@ module WEBrick
       end
     end
     FileHandler.add_handler('md', MarkdownHandler)
+    FileHandler.add_handler('markdown', MarkdownHandler)
   end
 end
 
@@ -89,7 +90,8 @@ module Repla
         rd.read(1)
         rd.close
 
-        url = "http://localhost:#{port}/#{@filename}"
+        require 'uri'
+        url = "http://localhost:#{port}/#{URI::encode(@filename)}"
         @delegate.load_url(url) unless @delegate.nil?
       end
 
