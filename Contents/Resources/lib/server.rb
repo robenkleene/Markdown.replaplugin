@@ -14,16 +14,16 @@ module WEBrick
 
       # rubocop:disable Naming/MethodName
       def do_GET(_req, res)
+        title = File.basename(@local_path)
         # rubocop:enable Naming/MethodName
         res.body = <<~BODY
           <!DOCTYPE html>
           <html lang="en">
           <head>
+            <title>#{title}</title>
             <meta charset="utf-8" />
+            <link rel="stylesheet" href="css/style.css">
           <html>
-          <head>
-            <title>Markdown</title>
-          </head>
           <body>
           #{Renderer.render IO.read(@local_path)}
           </body>
@@ -58,6 +58,12 @@ module Repla
                          end
         )
         port = @server.config[:Port]
+        @server.mount_proc '/css/style.css' do |_req, res|
+          stylesheet_path = File.join(File.dirname(__FILE__),
+                                      '..',
+                                      'css/style.css')
+          res.body = IO.read(stylesheet_path)
+        end
         @pid = fork do
           rd.close
           @server.start
