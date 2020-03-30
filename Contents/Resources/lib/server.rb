@@ -90,13 +90,16 @@ module Repla
         rd.read(1)
         rd.close
 
-        require 'uri'
-        url = "http://localhost:#{port}/#{URI::encode(@filename)}"
+        url = url_for_subpath(@filename)
         @delegate.load_url(url) unless @delegate.nil?
       end
 
       def shutdown
         Process.kill('INT', @pid)
+      end
+
+      def url_for_subpath(subpath)
+        "http://localhost:#{@port}/#{ERB::Util.url_encode(subpath)}"
       end
     end
   end
