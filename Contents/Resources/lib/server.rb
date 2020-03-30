@@ -1,6 +1,9 @@
 require 'webrick'
 require 'redcarpet'
 
+require 'securerandom'
+STYLSHEET_TOKEN = SecureRandom.uuid
+
 module WEBrick
   # Servlet
   module HTTPServlet
@@ -22,7 +25,7 @@ module WEBrick
           <head>
             <title>#{title}</title>
             <meta charset="utf-8" />
-            <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href="#{STYLSHEET_TOKEN}">
           <html>
           <body>
           #{Renderer.render IO.read(@local_path)}
@@ -58,7 +61,7 @@ module Repla
                          end
         )
         port = @server.config[:Port]
-        @server.mount_proc '/css/style.css' do |_req, res|
+        @server.mount_proc "/#{STYLSHEET_TOKEN}" do |_req, res|
           stylesheet_path = File.join(File.dirname(__FILE__),
                                       '..',
                                       'css/style.css')
