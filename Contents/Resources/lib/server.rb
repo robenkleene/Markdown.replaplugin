@@ -57,7 +57,7 @@ module Repla
                            wt.close
                          end
         )
-        port = @server.config[:port]
+        port = @server.config[:Port]
         fork do
           rd.close
           @server.start
@@ -68,7 +68,7 @@ module Repla
         rd.read(1)
         rd.close
 
-        url = "https://localhost:#{port}/#{@filename}"
+        url = "http://localhost:#{port}/#{@filename}"
         @delegate.load_url(url) unless @delegate.nil?
       end
 
