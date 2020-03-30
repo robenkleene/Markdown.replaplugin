@@ -16,14 +16,23 @@ filename = File.basename(file)
 window = Repla::Window.new
 server = Repla::Markdown::Server.new(path, filename, window)
 
-listener = Listen.to(path) do |_modified, _added, _removed|
-  window.reload
-end
-listener.start
-
 %w[INT TERM].each do |signal|
   trap(signal) { server.shutdown }
 end
 
 server.start
+
+require 'etc'
+home = Etc.getpwuid.dir
+real_pwd = File.realpath(Dir.pwd)
+real_home = File.realpath(home)
+real_library = File.realpath(File.join(home, 'Library'))
+disable_listen = [real_home, real_library].include?(real_pwd)
+unless disable_listen
+  listener = Listen.to(path) do |_modified, _added, _removed|
+    window.reload
+  end
+  listener.start
+end
+
 sleep
