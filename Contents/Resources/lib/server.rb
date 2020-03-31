@@ -1,5 +1,4 @@
 require 'webrick'
-# require 'redcarpet'
 require 'kramdown'
 
 require 'securerandom'
@@ -11,8 +10,6 @@ module WEBrick
   module HTTPServlet
     # MarkdownHandler
     class MarkdownHandler < AbstractServlet
-      # Renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new,
-      #                                    fenced_code_blocks: true)
       def initialize(server, local_path)
         super(server, local_path)
         @local_path = local_path
@@ -22,7 +19,6 @@ module WEBrick
       def do_GET(_req, res)
         title = File.basename(@local_path)
         # rubocop:enable Naming/MethodName
-        # html = Renderer.render IO.read(@local_path)
         html = Kramdown::Document.new(IO.read(@local_path)).to_html
         res.body = <<~BODY
           <!DOCTYPE html>
