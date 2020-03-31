@@ -26,8 +26,8 @@ module WEBrick
           <head>
             <title>#{title}</title>
             <meta charset="utf-8" />
-            <link rel="stylesheet" href="#{RASTER_TOKEN}">
-            <link rel="stylesheet" href="#{STYLSHEET_TOKEN}">
+            <link rel="stylesheet" href="/#{RASTER_TOKEN}">
+            <link rel="stylesheet" href="/#{STYLSHEET_TOKEN}">
           <html>
           <body>
           #{Renderer.render IO.read(@local_path)}
