@@ -10,7 +10,8 @@ module WEBrick
   module HTTPServlet
     # MarkdownHandler
     class MarkdownHandler < AbstractServlet
-      Renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
+      Renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new,
+                                         fenced_code_blocks: true)
       def initialize(server, local_path)
         super(server, local_path)
         @local_path = local_path
@@ -81,7 +82,7 @@ module Repla
         @pid = fork do
           rd.close
           @server.start
-          %w[INT TERM].each do |signal|
+          %w[INT TERM QUIT].each do |signal|
             trap(signal) { @server.shutdown }
           end
         end
@@ -95,7 +96,7 @@ module Repla
       end
 
       def shutdown
-        Process.kill('INT', @pid)
+        Process.kill('QUIT', @pid)
       end
 
       def url_for_subpath(subpath)
