@@ -21,6 +21,7 @@ module WEBrick
       def do_GET(_req, res)
         title = File.basename(@local_path)
         # rubocop:enable Naming/MethodName
+        html = Renderer.render IO.read(@local_path)
         res.body = <<~BODY
           <!DOCTYPE html>
           <html lang="en">
@@ -31,7 +32,7 @@ module WEBrick
             <link rel="stylesheet" href="/#{STYLSHEET_TOKEN}">
           <html>
           <body>
-          #{Renderer.render IO.read(@local_path)}
+          #{html}
           </body>
           </html>
         BODY
