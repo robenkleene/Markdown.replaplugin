@@ -1,31 +1,38 @@
-#!/System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby
+#!/usr/bin/env ruby --disable-gems
 
 require_relative 'bundle/bundler/setup'
 require 'repla'
+# One of the dependencies of `listen` assumes gems is available, so we re-add
+# it here
+require 'rubygems'
 require 'listen'
 
-require_relative 'lib/controller'
+require_relative 'lib/server'
 
 file = ARGF.file unless ARGV.empty?
-markdown = ARGF.read
-
-filename = File.basename(file)
-controller = Repla::Markdown::Controller.new(markdown, filename)
-
 path = File.expand_path(File.dirname(file))
+filename = File.basename(file)
 
-regex = Regexp.quote(filename)
-listener = Listen.to(path, only: /^#{regex}$/) do |modified, _added, _removed|
-  file = File.open(modified[0])
-  File.open(file) do |f|
-    controller.markdown = f.read
-  end
+window = Repla::Window.new
+server = Repla::Markdown::Server.new(path, filename, window)
+
+%w[INT TERM].each do |signal|
+  trap(signal) { server.shutdown }
 end
 
-listener.start
+server.start
 
-trap('SIGINT') do
-  exit
+require 'etc'
+home = Etc.getpwuid.dir
+real_pwd = File.realpath(Dir.pwd)
+real_home = File.realpath(home)
+real_library = File.realpath(File.join(home, 'Library'))
+disable_listen = [real_home, real_library].include?(real_pwd)
+unless disable_listen
+  listener = Listen.to(path) do |_modified, _added, _removed|
+    window.reload
+  end
+  listener.start
 end
 
 sleep

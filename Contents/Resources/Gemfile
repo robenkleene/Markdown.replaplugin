@@ -1,7 +1,8 @@
 # A sample Gemfile
 source 'https://rubygems.org'
-ruby '2.3.7'
+ruby '2.4.1'
 gem 'listen'
+gem 'raster'
 gem 'redcarpet'
 gem 'repla'
 # "nio" is a dependency of listen, before adding it explicitely here, new
