@@ -1,6 +1,6 @@
 body {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   padding: 1.25rem;
 }
 
@@ -15,9 +15,9 @@ img {
 }
 
 code {
-  color: #2d5fa8;
+  color: #555;
   font-family: "Menlo", monospace;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
