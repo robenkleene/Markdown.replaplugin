@@ -53,7 +53,6 @@ class TestServer < Minitest::Test
   # end
 end
 
-
 # TestServerTwo
 class TestServerBad < Minitest::Test
   def setup
