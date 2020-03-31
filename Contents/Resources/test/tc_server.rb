@@ -53,6 +53,32 @@ class TestServer < Minitest::Test
   # end
 end
 
+
+# TestServerTwo
+class TestServerBad < Minitest::Test
+  def setup
+    path = TEST_DATA_DIRECTORY
+    filename = File.basename(TEST_MARKDOWN_NOEXIST_FILENAME)
+    @window = Repla::Window.new
+    @server = Repla::Markdown::Server.new(path, filename, @window)
+    @server.start
+  end
+
+  def teardown
+    @server.shutdown
+    @window.close
+  end
+
+  def test_server_two_files
+    title = nil
+    Repla::Test.block_until do
+      title = @window.do_javascript(TEST_TITLE_JAVASCRIPT)
+      title == TEST_MARKDOWN_NOEXIST_TITLE
+    end
+    assert_equal(TEST_MARKDOWN_NOEXIST_TITLE, title)
+  end
+end
+
 # TestServerTwo
 class TestServerTwo < Minitest::Test
   def setup

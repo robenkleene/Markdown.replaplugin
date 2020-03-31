@@ -4,6 +4,7 @@ TEST_H1_JAVASCRIPT = "document.getElementsByTagName('h1')[0].innerHTML".freeze
 TEST_TITLE_JAVASCRIPT = 'document.title'.freeze
 
 TEST_MARKDOWN_NOEXIST_FILENAME = 'Doesn\'t Exist'.freeze
+TEST_MARKDOWN_NOEXIST_TITLE = 'Not Found'.freeze
 TEST_MARKDOWN_NOEXIST_FILE = File.join(TEST_DATA_DIRECTORY,
                                        TEST_MARKDOWN_NOEXIST_FILENAME)
 
