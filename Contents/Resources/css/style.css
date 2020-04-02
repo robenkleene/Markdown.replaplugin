@@ -14,6 +14,21 @@ img {
   vertical-align: middle;
 }
 
+sub,
+sup {
+  line-height: 0;
+  margin-left: 1px;
+  font-size: calc(1em * (8 / 12));
+}
+
+sub {
+  vertical-align: sub;
+}
+
+sup {
+  vertical-align: super;
+}
+
 code {
   color: #555;
   font-family: "Menlo", monospace;
@@ -29,6 +44,6 @@ code {
     color: #ccc;
   }
   a {
-    color: #3D93CD;
+    color: #3d93cd;
   }
 }
