@@ -94,8 +94,14 @@ module Repla
         @delegate.load_url(url) unless @delegate.nil?
       end
 
-      def shutdown
-        Process.kill('QUIT', @pid)
+      def shutdown(signal)
+        Process.kill(signal, -Process.getpgid(@pid))
+      end
+
+      def shutdown_light(signal)
+        # This leaks processes when the app quits or crashes, but tests use it
+        # because using the harder kill also kills the test process
+        Process.kill(signal, @pid)
       end
 
       def url_for_subpath(subpath)
