@@ -21,7 +21,7 @@ class TestServer < Minitest::Test
   end
 
   def teardown
-    @server.shutdown('INT')
+    @server.shutdown_light('INT')
     @window.close
   end
 
@@ -64,7 +64,7 @@ class TestServerBad < Minitest::Test
   end
 
   def teardown
-    @server.shutdown('INT')
+    @server.shutdown_light('INT')
     @window.close
   end
 
@@ -89,7 +89,7 @@ class TestServerTwo < Minitest::Test
   end
 
   def teardown
-    @server.shutdown('INT')
+    @server.shutdown_light('INT')
     @window.close
   end
 
