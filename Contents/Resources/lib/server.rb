@@ -85,6 +85,8 @@ module Repla
             trap(signal) { @server.shutdown }
           end
         end
+        @gid = Process.getpgid(@pid)
+        puts "@gid = #{@gid}"
         wt.close
         # Read `1` to know to continue when server is started
         rd.read(1)
@@ -95,7 +97,8 @@ module Repla
       end
 
       def shutdown
-        Process.kill('QUIT', @pid)
+        Process.kill(9, -Process.getpgid(@pid))
+        # Process.kill('QUIT', @pid)
       end
 
       def url_for_subpath(subpath)
