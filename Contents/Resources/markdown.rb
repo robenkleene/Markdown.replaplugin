@@ -17,7 +17,7 @@ window = Repla::Window.new
 server = Repla::Markdown::Server.new(path, filename, window)
 
 %w[INT TERM].each do |signal|
-  trap(signal) { server.shutdown }
+  trap(signal) { server.shutdown(signal) }
 end
 
 server.start
