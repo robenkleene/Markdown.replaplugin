@@ -1,4 +1,4 @@
-.PHONY: ci ac autocorrect lint test
+.PHONY: ci ac autocorrect lint test loc
 
 ci: lint
 ac: autocorrect
@@ -11,6 +11,9 @@ autocorrect:
 
 test:
 	./Contents/Resources/test/run_tests.sh
+
+loc:
+	cloc --vcs=git --exclude-dir=bundle,.bundle
 
 bundle_update:
 	cd ./Contents/Resources/ &&\
