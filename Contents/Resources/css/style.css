@@ -10,8 +10,12 @@ pre {
 }
 
 img {
-  max-width: 100%;
   vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
 }
 
 sub,
